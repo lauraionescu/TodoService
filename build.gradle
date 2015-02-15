@@ -1,5 +1,16 @@
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'gradle-one-jar'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.3'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -10,8 +21,24 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.1'
 }
 
-mainClassName = 'todo.TodoService'
+mainClassName = 'todo.TodoApplication'
 
 task listJars << {
     configurations.compile.each { File file -> println file.name }
 }
+
+task oneJar(type: OneJar) {
+    mainClass = mainClassName
+}
+
+artifacts {
+    oneJar
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': mainClassName)
+    }
+}
+
+sourceSets.main.java.srcDirs = ["src"]
