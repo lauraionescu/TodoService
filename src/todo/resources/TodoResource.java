@@ -1,5 +1,7 @@
 package todo.resources;
+
 import todo.core.Saying;
+
 import com.google.common.base.Optional;
 import com.codahale.metrics.annotation.Timed;
 
